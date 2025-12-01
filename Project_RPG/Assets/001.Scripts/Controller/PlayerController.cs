@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class PlayerController : MonoBehaviour
 {
+    public Player player;
     public Animator anim;
-    private Rigidbody rb;
-    public Joystick joystick;
-    public float moveSpeed = 5f;    
+    public Rigidbody rb;
     public float rotationSpeed = 10f;
 
     public Dictionary<Define.PlayerState, State<PlayerController>> states;
@@ -19,11 +19,14 @@ public class PlayerController : MonoBehaviour
 
     public void Init()
     {
+        player = new Player(this ,100, 100, 5f);
         anim = Util.FindChild<Animator>(gameObject, "Model");
         rb = gameObject.GetOrAddComponent<Rigidbody>();
         states = states = new Dictionary<Define.PlayerState, State<PlayerController>>();
-        states.Add(Define.PlayerState.IDLE, new PlayerState.Idle());
-        states.Add(Define.PlayerState.MOVE, new PlayerState.Move());
+        states.Add(Define.PlayerState.IDLE, new PlayerStates.Idle());
+        states.Add(Define.PlayerState.MOVE, new PlayerStates.Move());
+        states.Add(Define.PlayerState.ATTACK, new PlayerStates.Attack());
+        states.Add(Define.PlayerState.HIT, new PlayerStates.Hit());
         sm = new StateMachine<PlayerController>(this, states[Define.PlayerState.IDLE]);
     }
 
@@ -43,31 +46,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckMoveAndStop();
         sm.FixedUpdate();
     }
 
     private void Update()
     {
         sm.Update();
-    }
-
-    public void CheckMoveAndStop()
-    {
-        Vector2 input = joystick.Direction;
-        if (input == Vector2.zero) ChangeState(Define.PlayerState.IDLE);
-        else ChangeState(Define.PlayerState.MOVE);
-    }
-
-    public void Move()
-    {
-        Vector3 moveDir = new Vector3(joystick.Direction.x, 0, joystick.Direction.y);
-
-        // 회전 (캐릭터가 조이스틱 방향을 보게 함)
-        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-        // 이동
-        rb.MovePosition(rb.position + moveDir.normalized * moveSpeed * Time.deltaTime);
     }
 }

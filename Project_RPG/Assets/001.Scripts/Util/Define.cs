@@ -35,7 +35,9 @@ public class Define
     public enum PlayerState
     {
         IDLE = 0,
-        MOVE = 1
+        MOVE = 1,
+        ATTACK = 2,
+        HIT = 3
     }
 
     public enum PlayerAttack
