@@ -8,14 +8,10 @@ public class Managers : Singleton<Managers>
     private ResourceManager _resource;
     private UIManager _ui;
     private PoolManager _pool;
-    //private InputManager _input;
-    //private ObstacleManager _obstacle;
-    //private DataManager _data;
-    //private MonsterManager _monster;
-    //private BossManager _boss;
     private SceneManager _scene;
     private ScreenManager _screen;
     private CoroutineManager _coroutine;
+    private InputManager _input;
 
     private static bool init = false;
 
@@ -25,12 +21,14 @@ public class Managers : Singleton<Managers>
     public static PoolManager Pool { get { return Instance?._pool; } }
     public static SceneManager Scene { get { return Instance?._scene; } }
     public static ScreenManager Screen { get { return Instance?._screen; } }
+    public static InputManager Input { get { return Instance?._input; } }
     public static CoroutineManager Routine { get { return CoroutineManager.Instance; } }
 
 
     private void Awake()
     {
         Init();
+        
     }
 
     private static void Init()
@@ -43,6 +41,7 @@ public class Managers : Singleton<Managers>
         Instance._scene = new SceneManager();
         Instance._screen = new ScreenManager();
         Instance._coroutine = CoroutineManager.Instance;
+        Instance._input = new InputManager();
         init = true;
     }
 }
