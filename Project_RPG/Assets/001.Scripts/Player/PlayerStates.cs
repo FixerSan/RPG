@@ -13,7 +13,7 @@ namespace PlayerStates
 
         public override void Update(PlayerController _entity)
         {
-            _entity.player.move.CheckMove();
+            _entity.Player.move.CheckMove();
         }
 
         public override void FixedUpdate(PlayerController _entity)
@@ -38,12 +38,12 @@ namespace PlayerStates
 
         public override void Update(PlayerController _entity)
         {
-            _entity.player.move.CheckStop();
+            _entity.Player.move.CheckStop();
         }
 
         public override void FixedUpdate(PlayerController _entity)
         {
-            _entity.player.move.Move();
+            _entity.Player.move.Move();
         }
 
         public override void Exit(PlayerController _entity)

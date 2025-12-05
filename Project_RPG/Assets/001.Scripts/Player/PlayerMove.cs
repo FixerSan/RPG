@@ -13,7 +13,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (Managers.Input.IsMoveInput)
         {
-            player.playerController.ChangeState(Define.PlayerState.MOVE);
+            Managers.Object.PlayerController.ChangeState(Define.PlayerState.MOVE);
         }
     }
 
@@ -21,9 +21,9 @@ public class PlayerMove : MonoBehaviour
     {
 
         Quaternion targetRotation = Quaternion.LookRotation(Managers.Input.MoveDirection);
-        player.playerController.transform.rotation = Quaternion.Slerp(player.playerController.transform.rotation, targetRotation, player.playerController.rotationSpeed * Time.deltaTime);
+        Managers.Object.PlayerController.transform.rotation = Quaternion.Slerp(Managers.Object.PlayerController.transform.rotation, targetRotation, Managers.Object.PlayerController.rotationSpeed * Time.deltaTime);
 
-        player.playerController.transform.position += Managers.Input.MoveDirection * player.moveSpeed * Time.deltaTime;
+        Managers.Object.PlayerController.transform.position += Managers.Input.MoveDirection * player.status.moveSpeed * Time.deltaTime;
         
     }
 
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (!Managers.Input.IsMoveInput)
         {
-            player.playerController.ChangeState(Define.PlayerState.IDLE);
+            Managers.Object.PlayerController.ChangeState(Define.PlayerState.IDLE);
         }
     }
 }

@@ -2,27 +2,22 @@ using UnityEngine;
 
 public class Player
 {
-    public PlayerController playerController;
+    public PlayerController playerController => Managers.Object.PlayerController;
+    public PlayerData data;
     public PlayerStatus status;
     public PlayerMove move;
     public PlayerAttack attack;
-    public float moveSpeed;
+
     // 기타 데이터: 무기/방어구/스킬 등 확장 가능
 
-    public Player(PlayerController _playerController,int maxHp = 100, int maxMp = 50, float moveSpeed = 5f)
+    public Player(PlayerData _data)
     {
-        playerController = _playerController;
-        status = new PlayerStatus(maxHp, maxMp);
-        this.moveSpeed = moveSpeed;
+        data = _data;
+        status = new PlayerStatus(data.maxHp, data.maxMp, data.moveSpeed);
         move = new PlayerMove(this);
     }
 
-    // 초기화
-    public void Init(int maxHp, int maxMp, float moveSpeed)
-    {
-        status.Init(maxHp, maxMp);
-        this.moveSpeed = moveSpeed;
-    }
+
     public void AddExp(int gainedExp)
     {
         status.exp += gainedExp;
